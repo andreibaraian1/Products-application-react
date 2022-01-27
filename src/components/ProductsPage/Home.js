@@ -36,7 +36,6 @@ const Home = (props) => {
         arr.push(products[i].sku);
       }
     }
-    console.log(arr);
     for (var j in arr) {
       const deleteProduct = await Axios.get(
         `https://php-api-for-scandiweb.herokuapp.com/deleteProduct?id=${arr[j]}`

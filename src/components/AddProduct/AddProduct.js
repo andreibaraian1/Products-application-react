@@ -29,7 +29,7 @@ const AddProduct = (props) => {
         setErr("Please, provide size");
         return;
       }
-      arr = "Size ".concat(size);
+      arr = size.concat(" Size");
     }
     if (type === "Furniture") {
       if (!height || !width || !length) {
