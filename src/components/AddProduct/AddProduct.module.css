@@ -1,0 +1,33 @@
+.title {
+  display: block;
+
+  width: 100%;
+}
+.title h1 {
+  float: left;
+  display: inline;
+  padding-left: 5%;
+  padding-top: 2%;
+}
+.buttons {
+  float: right;
+  width: fit-content;
+  padding-right: 10%;
+  padding-top: 2%;
+  text-decoration: inherit;
+}
+.buttons button {
+  margin: 5px;
+}
+.form {
+    text-align: left;
+    margin-left:5%;
+    margin-right:25%;
+}
+.form input{
+    width:25%;
+}
+.formSwitch{
+    width:25%;
+}
+

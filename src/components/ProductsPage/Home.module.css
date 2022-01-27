@@ -1,0 +1,40 @@
+body {
+    background-color:#F5F5F5;
+    overflow-x: hidden;
+}
+.title{
+    display:block;
+    
+    width: 100%;
+}
+.title h1{
+    float:left;
+    display:inline;
+    padding-left:5%;
+    padding-top:2%;
+    
+}
+.buttons {
+    float:right;
+    width: fit-content;
+    padding-right:10%;
+    padding-top:2%;
+    text-decoration: inherit;
+}
+.buttons button {
+    margin:5px;
+}
+.products {
+    display:block;
+}
+.product {
+    margin-top:2%
+}
+hr
+{
+    border: 1px solid rgb(20, 20, 20);
+    position: static;
+    width: 100%;
+    margin-left: 5%;
+    margin-right: 10%;
+}
