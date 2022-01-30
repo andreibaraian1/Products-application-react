@@ -9,25 +9,24 @@ import Footer from "../Footer";
 import { Link } from "react-router-dom";
 const Home = (props) => {
   const [products, setProducts] = useState();
-  const [checkboxes, setCheckboxes] = useState();
+  var checkboxes = [];
+  // const [checkboxes, setCheckboxes] = useState();
   const [change, setChange] = useState();
   useEffect(() => {
     const fetchProducts = async () => {
       const getProducts = await Axios.get(
-        "https://php-api-for-scandiweb.herokuapp.com/getProducts"
+        "https://scandiweb-self.vercel.app/getProducts"
       );
       setProducts(getProducts.data);
       if(getProducts.data)
-        setCheckboxes(new Array(getProducts.data.length).fill(false));
+         checkboxes = new Array(getProducts.data.length).fill(false);
     };
 
     fetchProducts();
     setChange();
   }, [change]);
   const changeCheckboxes = (index) => {
-    var c = { ...checkboxes };
-    c[index] = !c[index];
-    setCheckboxes(c);
+    checkboxes[index] = !checkboxes[index];
   };
   const selectItems = async () => {
     var arr = [];
@@ -37,8 +36,8 @@ const Home = (props) => {
       }
     }
     for (var j in arr) {
-      const deleteProduct = await Axios.get(
-        `https://php-api-for-scandiweb.herokuapp.com/deleteProduct?id=${arr[j]}`
+      Axios.get(
+        `https://scandiweb-self.vercel.app/deleteProduct?id=${arr[j]}`
       );
     }
     if(arr)
