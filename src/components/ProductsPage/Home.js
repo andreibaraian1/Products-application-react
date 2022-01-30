@@ -15,7 +15,7 @@ const Home = (props) => {
   useEffect(() => {
     const fetchProducts = async () => {
       const getProducts = await Axios.get(
-        "https://scandiweb-self.vercel.app/getProducts"
+        "https://php-api-for-scandiweb.herokuapp.com/getProducts"
       );
       setProducts(getProducts.data);
       if(getProducts.data)
@@ -37,7 +37,7 @@ const Home = (props) => {
     }
     for (var j in arr) {
       Axios.get(
-        `https://scandiweb-self.vercel.app/deleteProduct?id=${arr[j]}`
+        `https://php-api-for-scandiweb.herokuapp.com/deleteProduct?id=${arr[j]}`
       );
     }
     if(arr)

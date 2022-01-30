@@ -46,7 +46,7 @@ const AddProduct = (props) => {
       arr = "Weight: ".concat(weight).concat("KG");
     }
     const insertProduct = await Axios.post(
-      "https://scandiweb-self.vercel.app/insertProduct",
+      "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
       {
         sku: sku,
         name: name,
