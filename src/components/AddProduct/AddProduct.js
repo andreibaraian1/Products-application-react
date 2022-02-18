@@ -18,45 +18,60 @@ const AddProduct = (props) => {
   const [err, setErr] = useState("");
   const navigate = useNavigate();
   const submitHandler = async (event) => {
+    let product;
     event.preventDefault();
     if (!sku || !name || !price || !type) {
       setErr("All items should have a value");
       return;
     }
-    var arr;
     if (type === "DVD") {
       if (!size) {
         setErr("Please, provide size");
         return;
       }
-      arr = size.concat(" MB");
+      product = {
+        sku,
+        name,
+        price,
+        productType: type,
+        size,
+      };
     }
     if (type === "Furniture") {
       if (!height || !width || !length) {
         setErr("Please, provide dimensions");
         return;
       }
-      arr = height.concat("x").concat(width).concat("x").concat(length);
+      product = {
+        sku,
+        name,
+        price,
+        productType: type,
+        height,
+        width,
+        length,
+      };
     }
-    if (type === "Book") {
+    if (type === "Books") {
       if (!weight) {
         setErr("Please, provide weight");
         return;
       }
-      arr = "Weight: ".concat(weight).concat("KG");
+      product = {
+        sku,
+        name,
+        price,
+        productType: type,
+        weight,
+      };
     }
     const insertProduct = await Axios.post(
-      "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
-      {
-        sku: sku,
-        name: name,
-        price: price,
-        productType: type,
-        description: arr,
-      }
+      "http://localhost/phpApi/insertProduct",
+      product
     );
     if (insertProduct.status === 200) {
       navigate("/");
+      console.log(product);
     }
   };
   return (
@@ -106,7 +121,9 @@ const AddProduct = (props) => {
               setPrice(e.target.value);
               setErr("");
             }}
-            onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 ) && e.preventDefault() }
+            onKeyDown={(e) =>
+              (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+            }
             value={price}
           />
         </Form.Group>
@@ -123,7 +140,7 @@ const AddProduct = (props) => {
             <option />
             <option>DVD</option>
             <option>Furniture</option>
-            <option>Book</option>
+            <option>Books</option>
           </Form.Select>
         </Form.Group>
         {type === "DVD" && (
@@ -136,12 +153,14 @@ const AddProduct = (props) => {
                 setSize(e.target.value);
                 setErr("");
               }}
-              onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 ) && e.preventDefault() }
+              onKeyDown={(e) =>
+                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+              }
               value={size}
             />
           </Form.Group>
         )}
-        {type === "Book" && (
+        {type === "Books" && (
           <Form.Group className="mb-3" controlId="weight">
             <Form.Label>Weight</Form.Label>
             <Form.Control
@@ -151,7 +170,9 @@ const AddProduct = (props) => {
                 setWeight(e.target.value);
                 setErr("");
               }}
-              onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 ) && e.preventDefault() }
+              onKeyDown={(e) =>
+                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+              }
               value={weight}
             />
           </Form.Group>
@@ -167,7 +188,9 @@ const AddProduct = (props) => {
                   setHeight(e.target.value);
                   setErr("");
                 }}
-                onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 ) && e.preventDefault() }
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
                 value={height}
               />
             </Form.Group>
@@ -180,7 +203,9 @@ const AddProduct = (props) => {
                   setWidth(e.target.value);
                   setErr("");
                 }}
-                onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 ) && e.preventDefault() }
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
                 value={width}
               />
             </Form.Group>
@@ -193,8 +218,9 @@ const AddProduct = (props) => {
                   setLength(e.target.value.replace(/[^0-9]/g, ""));
                   setErr("");
                 }}
-                onKeyDown={ e => ( e.keyCode === 69 || e.keyCode === 190 ) && e.preventDefault() }
-                
+                onKeyDown={(e) =>
+                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
+                }
                 value={length}
               />
             </Form.Group>
