@@ -66,7 +66,7 @@ const AddProduct = (props) => {
       };
     }
     const insertProduct = await Axios.post(
-      "http://localhost/phpApi/insertProduct",
+      "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
       product
     );
     if (insertProduct.status === 200) {
