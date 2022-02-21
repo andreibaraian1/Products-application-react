@@ -56,7 +56,7 @@ const AddProduct = (props) => {
           length,
         };
         break;
-      case "Books":
+      case "Book":
         if (!weight) {
           setErr("Please provide weight");
           return;
@@ -65,7 +65,7 @@ const AddProduct = (props) => {
           sku,
           name,
           price,
-          productType: type,
+          productType: 'Books',
           weight,
         };
         break;
@@ -73,7 +73,6 @@ const AddProduct = (props) => {
       default:
         console.log("No product type");
     }
-
     const insertProduct = await Axios.post(
       "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
       product
@@ -148,7 +147,7 @@ const AddProduct = (props) => {
             <option />
             <option>DVD</option>
             <option>Furniture</option>
-            <option>Books</option>
+            <option>Book</option>
           </Form.Select>
         </Form.Group>
         {type === "DVD" && (
@@ -160,7 +159,7 @@ const AddProduct = (props) => {
             size={size}
           />
         )}
-        {type === "Books" && (
+        {type === "Book" && (
           <Book
             weightHandler={(e) => {
               setWeight(e);
