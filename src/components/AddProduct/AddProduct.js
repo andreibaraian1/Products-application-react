@@ -5,6 +5,9 @@ import Form from "react-bootstrap/Form";
 import { useState } from "react";
 import Axios from "axios";
 import { useNavigate } from "react-router-dom";
+import Book from "./ProductsForm/Book";
+import Dvd from "./ProductsForm/Dvd";
+import Furniture from "./ProductsForm/Furniture";
 const AddProduct = (props) => {
   const [type, setType] = useState("");
   const [sku, setSku] = useState("");
@@ -24,54 +27,59 @@ const AddProduct = (props) => {
       setErr("All items should have a value");
       return;
     }
-    if (type === "DVD") {
-      if (!size) {
-        setErr("Please, provide size");
-        return;
-      }
-      product = {
-        sku,
-        name,
-        price,
-        productType: type,
-        size,
-      };
+    switch (type) {
+      case "DVD":
+        if (!size) {
+          setErr("Please provide size");
+          return;
+        }
+        product = {
+          sku,
+          name,
+          price,
+          productType: type,
+          size,
+        };
+        break;
+      case "Furniture":
+        if (!height || !width || !length) {
+          setErr("Please provide dimensions");
+          return;
+        }
+        product = {
+          sku,
+          name,
+          price,
+          productType: type,
+          height,
+          width,
+          length,
+        };
+        break;
+      case "Books":
+        if (!weight) {
+          setErr("Please provide weight");
+          return;
+        }
+        product = {
+          sku,
+          name,
+          price,
+          productType: type,
+          weight,
+        };
+        break;
+
+      default:
+        console.log("No product type");
     }
-    if (type === "Furniture") {
-      if (!height || !width || !length) {
-        setErr("Please, provide dimensions");
-        return;
-      }
-      product = {
-        sku,
-        name,
-        price,
-        productType: type,
-        height,
-        width,
-        length,
-      };
-    }
-    if (type === "Books") {
-      if (!weight) {
-        setErr("Please, provide weight");
-        return;
-      }
-      product = {
-        sku,
-        name,
-        price,
-        productType: type,
-        weight,
-      };
-    }
+
     const insertProduct = await Axios.post(
-      "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
+      "http://localhost/phpApi/insertProduct",
       product
     );
     if (insertProduct.status === 200) {
       navigate("/");
-      console.log(product);
     }
   };
   return (
@@ -144,87 +152,41 @@ const AddProduct = (props) => {
           </Form.Select>
         </Form.Group>
         {type === "DVD" && (
-          <Form.Group className="mb-3" controlId="size">
-            <Form.Label>Size</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Size"
-              onChange={(e) => {
-                setSize(e.target.value);
-                setErr("");
-              }}
-              onKeyDown={(e) =>
-                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-              }
-              value={size}
-            />
-          </Form.Group>
+          <Dvd
+            sizeHandler={(e) => {
+              setSize(e);
+              setErr("");
+            }}
+            size={size}
+          />
         )}
         {type === "Books" && (
-          <Form.Group className="mb-3" controlId="weight">
-            <Form.Label>Weight</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Weight"
-              onChange={(e) => {
-                setWeight(e.target.value);
-                setErr("");
-              }}
-              onKeyDown={(e) =>
-                (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-              }
-              value={weight}
-            />
-          </Form.Group>
+          <Book
+            weightHandler={(e) => {
+              setWeight(e);
+              setErr("");
+            }}
+            weight={weight}
+          />
         )}
         {type === "Furniture" && (
-          <div>
-            <Form.Group className="mb-3" controlId="height">
-              <Form.Label>Height</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Height"
-                onChange={(e) => {
-                  setHeight(e.target.value);
-                  setErr("");
-                }}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-                value={height}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="width">
-              <Form.Label>Width</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Width"
-                onChange={(e) => {
-                  setWidth(e.target.value);
-                  setErr("");
-                }}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-                value={width}
-              />
-            </Form.Group>
-            <Form.Group className="mb-3" controlId="length">
-              <Form.Label>Length</Form.Label>
-              <Form.Control
-                type="number"
-                placeholder="Length"
-                onChange={(e) => {
-                  setLength(e.target.value.replace(/[^0-9]/g, ""));
-                  setErr("");
-                }}
-                onKeyDown={(e) =>
-                  (e.keyCode === 69 || e.keyCode === 190) && e.preventDefault()
-                }
-                value={length}
-              />
-            </Form.Group>
-          </div>
+          <Furniture
+            heightHandler={(e) => {
+              setHeight(e);
+              setErr("");
+            }}
+            widthHandler={(e) => {
+              setWidth(e);
+              setErr("");
+            }}
+            lengthHandler={(e) => {
+              setLength(e);
+              setErr("");
+            }}
+            height={height}
+            width={width}
+            length={length}
+          />
         )}
       </Form>
       <Footer />
