@@ -15,7 +15,7 @@ const Home = (props) => {
   useEffect(() => {
     const fetchProducts = async () => {
       const getProducts = await Axios.get(
-        "http://localhost/phpApi/getProducts"
+        "https://php-api-for-scandiweb.herokuapp.com/getProducts"
       );
       setProducts(getProducts.data);
       if (getProducts.data)
@@ -36,7 +36,7 @@ const Home = (props) => {
       }
     }
     for (var j in arr) {
-      Axios.get(`http://localhost/phpApi/deleteProduct?id=${arr[j]}`).then(
+      Axios.get(`https://php-api-for-scandiweb.herokuapp.com/deleteProduct?id=${arr[j]}`).then(
         () => {
           setChange(1);
         }
