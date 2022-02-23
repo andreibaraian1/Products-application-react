@@ -3,11 +3,11 @@ import styles from "./AddProduct.module.css";
 import { Link } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import { useState } from "react";
-import Axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Book from "./ProductsForm/Book";
 import Dvd from "./ProductsForm/Dvd";
 import Furniture from "./ProductsForm/Furniture";
+import AddProductHelper from "./AddProductHelper";
 const AddProduct = (props) => {
   const [type, setType] = useState("");
   const [sku, setSku] = useState("");
@@ -21,64 +21,24 @@ const AddProduct = (props) => {
   const [err, setErr] = useState("");
   const navigate = useNavigate();
   const submitHandler = async (event) => {
-    let product;
     event.preventDefault();
-    if (!sku || !name || !price || !type) {
-      setErr("All items should have a value");
-      return;
-    }
-    switch (type) {
-      case "DVD":
-        if (!size) {
-          setErr("Please provide size");
-          return;
-        }
-        product = {
-          sku,
-          name,
-          price,
-          productType: type,
-          size,
-        };
-        break;
-      case "Furniture":
-        if (!height || !width || !length) {
-          setErr("Please provide dimensions");
-          return;
-        }
-        product = {
-          sku,
-          name,
-          price,
-          productType: type,
-          height,
-          width,
-          length,
-        };
-        break;
-      case "Book":
-        if (!weight) {
-          setErr("Please provide weight");
-          return;
-        }
-        product = {
-          sku,
-          name,
-          price,
-          productType: 'Books',
-          weight,
-        };
-        break;
-
-      default:
-        console.log("No product type");
-    }
-    const insertProduct = await Axios.post(
-      "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
-      product
-    );
-    if (insertProduct.status === 200) {
+    const query = {
+      type,
+      sku,
+      name,
+      price,
+      size,
+      weight,
+      height,
+      width,
+      length,
+    };
+    const result = await AddProductHelper(query);
+    console.log(result);
+    if (result.valid === true && result.err === null) {
       navigate("/");
+    } else {
+      setErr(result.err);
     }
   };
   return (
