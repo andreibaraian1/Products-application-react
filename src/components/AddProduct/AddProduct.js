@@ -34,7 +34,7 @@ const AddProduct = (props) => {
       length,
     };
     const result = await AddProductHelper(query);
-    if (result.valid === true && result.err === null) {
+    if (result.valid && !result?.err) {
       navigate("/");
     } else {
       setErr(result.err);

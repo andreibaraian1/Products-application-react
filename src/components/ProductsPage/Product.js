@@ -2,30 +2,36 @@ import { useState } from "react";
 import { Card } from "react-bootstrap";
 
 const Product = (props) => {
+  const {
+    checkboxHandler,
+    product: { sku, name, price, productType, description },
+  } = props;
   const [isChecked, setIsChecked] = useState(false);
-  const checkboxHandler = (event) => {
-    setIsChecked(!isChecked);
-    props.checkboxHandler(props.index);
+
+  const handleChange = () => {
+    setIsChecked((prev) => !prev);
+    checkboxHandler(sku);
   };
+
   return (
     <Card>
       <div>
         <input
           className="delete-checkbox"
           type="checkbox"
-          id={props.index}
+          id={sku}
           checked={isChecked}
-          onChange={checkboxHandler}
+          onChange={handleChange}
         />
       </div>
-      <Card.Text> {props.product.sku}</Card.Text>
-      <Card.Text> {props.product.name}</Card.Text>
-      <Card.Text>{props.product.price}$</Card.Text>
+      <Card.Text>{sku}</Card.Text>
+      <Card.Text>{name}</Card.Text>
+      <Card.Text>{price}$</Card.Text>
       <Card.Text>
-        {props.product.productType === "Furniture" && "Dimension:"}
-        {props.product.productType === "DVD" && "Size:"}
-        {props.product.productType === "Books" && "Weight:"}
-        {props.product.description}
+        {productType === "Furniture" && "Dimension:"}
+        {productType === "DVD" && "Size:"}
+        {productType === "Books" && "Weight:"}
+        {description}
       </Card.Text>
     </Card>
   );

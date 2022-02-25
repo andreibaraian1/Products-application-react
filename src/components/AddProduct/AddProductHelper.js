@@ -1,66 +1,58 @@
 import Axios from "axios";
 
-const AddProductHelper = async (p) => {
-  let err = null;
-  let product;
-  if (!p.sku || !p.name || !p.price || !p.type) {
-    err = "All items should have a value";
-    return { valid: "false", err };
+const AddProductHelper = async (payload) => {
+  if (!payload.sku || !payload.name || !payload.price || !payload.type) {
+    return { valid: false, err: "All items should have a value" };
   }
-  switch (p.type) {
+  let product = {
+    sku: payload.sku,
+    name: payload.name,
+    price: payload.price,
+    productType: payload.type,
+  };
+  switch (payload.type) {
     case "DVD":
-      if (!p.size) {
-        err = "Please provide size";
-        return { valid: "false", err };
+      if (!payload.size) {
+        return { valid: false, err: "Please provide size" };
       }
       product = {
-        sku: p.sku,
-        name: p.name,
-        price: p.price,
-        productType: p.type,
-        size: p.size,
+        ...product,
+        size: payload.size,
       };
       break;
     case "Furniture":
-      if (!p.height || !p.width || !p.length) {
-        err = "Please provide dimensions";
-        return { valid: "false", err };
+      if (!payload.height || !payload.width || !payload.length) {
+        return { valid: false, err: "Please provide dimensions" };
       }
       product = {
-        sku: p.sku,
-        name: p.name,
-        price: p.price,
-        productType: p.type,
-        height: p.height,
-        width: p.width,
-        length: p.length,
+        ...product,
+        height: payload.height,
+        width: payload.width,
+        length: payload.length,
       };
       break;
     case "Book":
-      if (!p.weight) {
-        err = "Please provide weight";
-        return { valid: "false", err };
+      if (!payload.weight) {
+        return { valid: false, err: "Please provide weight" };
       }
       product = {
-        sku: p.sku,
-        name: p.name,
-        price: p.price,
+        ...product,
         productType: "Books",
-        weight: p.weight,
+        weight: payload.weight,
       };
       break;
     default:
-      err = "No product type";
+      return { valid: false, err: "No product type" };
   }
   const insert = await Axios.post(
     "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
     product
   );
   if (insert.status === 200) {
-    return { valid: true, err };
+    return { valid: true };
   }
   return {
-    valid: true,
+    valid: false,
     err: "Error while sending to server, please try again",
   };
 };
