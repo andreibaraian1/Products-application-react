@@ -11,7 +11,7 @@ const Home = () => {
   const [checkboxes, setCheckboxes] = useState({});
 
   const fetchProducts = async () => {
-    const getProducts = await Axios.get("https://php-api-for-scandiweb.herokuapp.com/getProducts");
+    const getProducts = await Axios.get("https://products-php-api.herokuapp.com/getProducts");
 
     setProducts(getProducts.data);
   };
@@ -31,7 +31,7 @@ const Home = () => {
     const toDelete = Object.keys(checkboxes).filter((key) => checkboxes[key]);
 
     toDelete.forEach((sku) => {
-      Axios.get(`https://php-api-for-scandiweb.herokuapp.com/deleteProduct?id=${sku}`).then(() => {
+      Axios.get(`https://products-php-api.herokuapp.com/deleteProduct?id=${sku}`).then(() => {
         fetchProducts();
       });
     });

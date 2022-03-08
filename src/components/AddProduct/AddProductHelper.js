@@ -45,7 +45,7 @@ const AddProductHelper = async (payload) => {
       return { valid: false, err: "No product type" };
   }
   const insert = await Axios.post(
-    "https://php-api-for-scandiweb.herokuapp.com/insertProduct",
+    "https://products-php-api.herokuapp.com/insertProduct",
     product
   );
   if (insert.status === 200) {
